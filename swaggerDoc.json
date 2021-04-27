@@ -17,6 +17,38 @@
                     }
                 }
             } 
+        },
+        "/register": {
+            "post": {
+                "requestBody":{
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email":{
+                                        "type": "string"
+                                    },
+                                    "password":{
+                                        "type": "string"
+                                    },
+                                    "username":{
+                                        "type": "string"
+                                    }
+                                }
+                                
+                                
+                            }
+                        }
+                    }
+                },
+                "description": "registe new user",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+                
+            }
         }
     }
 }
