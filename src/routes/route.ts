@@ -1,10 +1,8 @@
+import { IController } from './../controllers/IController';
 import { Router } from "express";
 
-abstract class Route {
-  protected router = Router();
-  protected abstract setRoutes(): void;
-  public getRouter() {
-    return this.router;
-  }
+export interface BaseRoute {
+    path: string;
+    router: Router;
+    controller: IController;
 }
-export default Route;
