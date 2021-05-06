@@ -5,6 +5,7 @@
   "dependencies": {
     "@types/bcrypt": "^3.0.1",
     "@types/jsonwebtoken": "^8.5.1",
+    "@types/mongodb": "^3.6.12",
     "@types/serve-static": "^1.13.9",
     "@types/swagger-ui-express": "^4.1.2",
     "bcrypt": "^5.0.1",

@@ -5,7 +5,7 @@
         "version":"1.0"
     },
     "servers": [
-        {"url":"http://localhost:3000/api"}
+        {"url":"http://localhost:3000/"}
     ],
     "paths": {
         "/test": {
@@ -48,6 +48,34 @@
                     }
                 }
                 
+            }
+        },
+        "/login": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email":{
+                                        "type": "string"
+                                    },
+                                    "password":{
+                                        "type": "string"
+                                    }
+                                }  
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "NOT FOUND"
+                    }
+                }
             }
         }
     }

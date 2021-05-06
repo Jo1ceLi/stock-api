@@ -1,0 +1,526 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Stock-api",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "paths": {
+    "/test": {
+      "get": {
+        "description": "get testing data",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "summary": "Sign On",
+        "tags": [
+          "Authentication"
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/RegisterInput"
+        },
+        "description": "registe new user",
+        "responses": {
+          "200": {
+            "description": "Success in signing on"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Login and get token",
+        "tags": [
+          "Authentication"
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/LoginInput"
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "summary": "Get user info",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/userId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/account/{id}": {
+      "get": {
+        "summary": "Get TD Account info",
+        "tags": [
+          "TD Account"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/tdAccountId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TDAcoount"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/positions/{id}": {
+      "get": {
+        "summary": "Get user positions for duration",
+        "tags": [
+          "Position"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/tdAccountId"
+          },
+          {
+            "$ref": "#/components/parameters/startDate"
+          },
+          {
+            "$ref": "#/components/parameters/endDate"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Positions for duration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PositionSummary"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Authentication"
+    },
+    {
+      "name": "User"
+    },
+    {
+      "name": "TD Account"
+    },
+    {
+      "name": "Position"
+    }
+  ],
+  "components": {
+    "requestBodies": {
+      "RegisterInput": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "linkedTDAccount": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "password",
+                "username"
+              ]
+            }
+          }
+        }
+      },
+      "LoginInput": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "userId": {
+        "name": "id",
+        "description": "User ID",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "tdAccountId": {
+        "name": "id",
+        "description": "TD Account ID",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "startDate": {
+        "in": "query",
+        "name": "startDate",
+        "description": "Act as start date while using duration query, act as date as single date query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "/^[0-9]{4}-(1[0-2]|0[1-9])-(3[01]|[0-2][1-9]|[12]0)/"
+        }
+      },
+      "endDate": {
+        "in": "query",
+        "name": "endDate",
+        "description": "End date of the query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "pattern": "/^[0-9]{4}-(1[0-2]|0[1-9])-(3[01]|[0-2][1-9]|[12]0)/"
+        }
+      }
+    },
+    "schemas": {
+      "Error": {
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "format": "integer"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "statusCode",
+          "message"
+        ]
+      },
+      "UserInfo": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "tdAccountIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Instrument": {
+        "properties": {
+          "assetType": {
+            "type": "string",
+            "enum": [
+              "OPTION",
+              "EQUITY"
+            ]
+          },
+          "cusip": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "putCall": {
+            "type": "string",
+            "enum": [
+              "PUT",
+              "CALL"
+            ]
+          },
+          "underlyingSymbol": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "assetType",
+          "cusip",
+          "symbol"
+        ]
+      },
+      "PositionSummary": {
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "assetType": {
+            "type": "string",
+            "enum": [
+              {
+                "name": "EQUITY"
+              },
+              {
+                "name": "OPTION"
+              }
+            ]
+          },
+          "shortQuantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "longQuantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "marketValue": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Position": {
+        "properties": {
+          "longQuantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "shortQuantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "averagePrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "currentDayProfitLoss": {
+            "type": "number",
+            "format": "double"
+          },
+          "currentDayProfitLossPercentage": {
+            "type": "number",
+            "format": "double"
+          },
+          "settledLongQuantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "settledShortQuantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "instrument": {
+            "$ref": "#/components/schemas/Instrument"
+          },
+          "marketValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "maintenanceRequirement": {
+            "type": "number",
+            "format": "double"
+          },
+          "currentDayCost": {
+            "type": "number",
+            "format": "double"
+          },
+          "previousSessionLongQuantity": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "required": [
+          "longQuantity",
+          "shortQuantity",
+          "averagePrice",
+          "currentDayProfitLoss",
+          "currentDayProfitLossPercentage",
+          "settledLongQuantity",
+          "settledShortQuantity",
+          "instrument",
+          "marketValue",
+          "maintenanceRequirement",
+          "currentDayCost",
+          "previousSessionLongQuantity"
+        ]
+      },
+      "TDAcoount": {
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "positions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Position"
+            }
+          }
+        },
+        "required": [
+          "accountId",
+          "positions"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "The specified resource was not found 404",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}
