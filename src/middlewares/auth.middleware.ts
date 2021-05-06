@@ -8,7 +8,9 @@ class AuthMiddleWare {
     async checkJwt(req: Request, res: Response, next: NextFunction) {
         const client = new SecretManagerServiceClient();
         const jwtSecretUrl = 'projects/743538361446/secrets/jwt-secret/versions/latest';
-        const jwtSecret =  (await client.accessSecretVersion({name: jwtSecretUrl})).toString();
+        const [version] =  await client.accessSecretVersion({name: jwtSecretUrl});
+        const jwtSecret = version.payload?.data?.toString();
+        if(!jwtSecret) return next(new ApiExcption(403, `JWT Token error`));
         var token = req.headers.authorization?.replace('Bearer ', "");
         if(!token) token = req.body.token;
         if(token) {

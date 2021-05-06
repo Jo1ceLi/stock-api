@@ -45,17 +45,25 @@ class UserService {
             if(await bcrypt.compare(password, user.password)){
                 const client = new SecretManagerServiceClient();
                 const jwtSecretUrl = 'projects/743538361446/secrets/jwt-secret/versions/latest';
-                const jwtSecret =  (await client.accessSecretVersion({name: jwtSecretUrl})).toString();
+                const [version] =  await client.accessSecretVersion({name: jwtSecretUrl});
+                const jwtSecret = version.payload?.data?.toString();
+                if(jwtSecret){
                 const token = jwt.sign(
-                {
-                    id: user.id,
-                    email: user.email, 
-                    userName: user.userName, 
-                    exp: Math.floor(Date.now() / 1000) + (expiredMins * 60)
-                }, 
-                // secret.jwtsecret );
-                jwtSecret );
-                return token;
+                    {
+                        id: user.id,
+                        email: user.email, 
+                        userName: user.userName, 
+                        exp: Math.floor(Date.now() / 1000) + (expiredMins * 60)
+                    }, 
+                    // secret.jwtsecret );
+                    jwtSecret );
+                    return token;
+                }
+                else{
+                    return next(new ApiExcption(401, `JWT token error`));
+                }
+                
+                
             }else{
                 return next(new ApiExcption(401, `Wrong email or password`));
             }

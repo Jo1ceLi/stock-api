@@ -34,7 +34,8 @@ class APP {
 
     async db() {
         const dbUrlSecret = 'projects/743538361446/secrets/mongoDB-connectionString/versions/latest';
-        const url = await accessSecretVersion(dbUrlSecret, this.client);
+        const [version] = await this.client.accessSecretVersion({name: dbUrlSecret});
+        const url = version.payload?.data?.toString();
 
         if (url) {
             await createConnection({
