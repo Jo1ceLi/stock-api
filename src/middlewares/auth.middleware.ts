@@ -1,15 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { secret } from '../../secret';
 import ApiExcption from '../exceptions/ApiException';
+import { SecretManagerServiceClient } from '@google-cloud/secret-manager'
 
 
 class AuthMiddleWare {
-    checkJwt(req: Request, res: Response, next: NextFunction) {
+    async checkJwt(req: Request, res: Response, next: NextFunction) {
+        const client = new SecretManagerServiceClient();
+        const jwtSecretUrl = 'projects/743538361446/secrets/jwt-secret/versions/latest';
+        const jwtSecret =  (await client.accessSecretVersion({name: jwtSecretUrl})).toString();
         var token = req.headers.authorization?.replace('Bearer ', "");
         if(!token) token = req.body.token;
         if(token) {
-            jwt.verify(token, secret.jwtsecret, (err: any, decoded: any) => {
+            jwt.verify(token, jwtSecret, (err: any, decoded: any) => {
                 if(err)
                     next(new ApiExcption(403, err)); 
                     // res.json({success: false, error: err})

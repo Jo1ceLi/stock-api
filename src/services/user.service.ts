@@ -3,12 +3,12 @@ import  jwt  from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../models/user';
 import bcrypt from 'bcrypt';
-import { secret } from '../../secret';
 import ApiExcption from '../exceptions/ApiException';
 import { Position } from '../models/position';
 import { Instrument } from '../models/instrument';
 import { ObjectID } from 'mongodb';
-import { getManager, getMongoManager, getMongoRepository, getRepository, MongoEntityManager } from 'typeorm';
+import { SecretManagerServiceClient } from '@google-cloud/secret-manager'
+import { getMongoRepository, getRepository } from 'typeorm';
 
 class UserService {
     async register(req: Request, next: NextFunction) {
@@ -43,12 +43,18 @@ class UserService {
         if(!user) next(new ApiExcption(401, `User hasn't registered.`));
         else{
             if(await bcrypt.compare(password, user.password)){
-                const token = jwt.sign({
+                const client = new SecretManagerServiceClient();
+                const jwtSecretUrl = 'projects/743538361446/secrets/jwt-secret/versions/latest';
+                const jwtSecret =  (await client.accessSecretVersion({name: jwtSecretUrl})).toString();
+                const token = jwt.sign(
+                {
                     id: user.id,
                     email: user.email, 
                     userName: user.userName, 
-                    exp: Math.floor(Date.now() / 1000) + (expiredMins * 60),
-                }, secret.jwtsecret );
+                    exp: Math.floor(Date.now() / 1000) + (expiredMins * 60)
+                }, 
+                // secret.jwtsecret );
+                jwtSecret );
                 return token;
             }else{
                 return next(new ApiExcption(401, `Wrong email or password`));

@@ -1,5 +1,4 @@
 node_modules
-secret.ts
-out
 .vscode
+secret.ts
 dist

@@ -1,8 +1,11 @@
 {
   "scripts": {
-    "start": "nodemon --exec ts-node src/index.ts"
+    "start": "node ./dist/src/index.js",
+    "gcp-build": "tsc -p .",
+    "dev": "nodemon --exec ts-node src/index.ts"
   },
   "dependencies": {
+    "@google-cloud/secret-manager": "^3.6.0",
     "@types/bcrypt": "^3.0.1",
     "@types/jsonwebtoken": "^8.5.1",
     "@types/mongodb": "^3.6.12",
