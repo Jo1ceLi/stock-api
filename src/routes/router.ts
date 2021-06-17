@@ -2,11 +2,13 @@ import { Router, Request, Response, NextFunction } from 'express';
 import express from 'express';
 import UserRouter from './user.route';
 import TestRouter from './test.route';
+import AccountRouter from './account.route';
 import ApiExcption from '../exceptions/ApiException';
 
 
 const routers: Array<Router> = [
     UserRouter,
+    AccountRouter,
     TestRouter
 ]
 

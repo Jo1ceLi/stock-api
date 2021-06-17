@@ -109,24 +109,24 @@ class UserService {
         const userRepo = getMongoRepository(User);
         const user = await userRepo.findOne(id);
         if(!user) return next(new ApiExcption(401, `Can't find this user`))
-        const userWithTD = await userRepo.aggregate([
-            {
-                $match:
-                {
-                    email: 'ms0615122@gmail.com'
-                }
-            },
-            {
-                $lookup:
-                {
-                    from: 'td_account',
-                    localField: 'tdAccountId',
-                    foreignField: 'accountId',
-                    as: 'tdAccountInfo'
-                }
-            }
-            ]).toArray()
-        return userWithTD;
+        // const userWithTD = await userRepo.aggregate([
+        //     {
+        //         $match:
+        //         {
+        //             email: 'ms0615122@gmail.com'
+        //         }
+        //     },
+        //     {
+        //         $lookup:
+        //         {
+        //             from: 'td_account',
+        //             localField: 'tdAccountId',
+        //             foreignField: 'accountId',
+        //             as: 'tdAccountInfo'
+        //         }
+        //     }
+        //     ]).toArray()
+        return user;
     }
     async updateUserAccount(req: Request, res: Response, next: NextFunction) {
         const updatePositions = [

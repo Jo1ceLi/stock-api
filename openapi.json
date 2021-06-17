@@ -6,7 +6,12 @@
   },
   "servers": [
     {
-      "url": "https://stock-api-312913.df.r.appspot.com/"
+      "url": "https://stock-api-312913.df.r.appspot.com/",
+      "description": "PROD"
+    },
+    {
+      "url": "http://localhost:8080/",
+      "description": "DEV"
     }
   ],
   "paths": {
