@@ -16,4 +16,4 @@ export class User extends BaseEntity{
 
     @Column()
     tdAccountId: string[];
-}
+} 
