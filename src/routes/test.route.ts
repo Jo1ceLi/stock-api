@@ -14,9 +14,9 @@ class TestRoute implements BaseRoute {
         this.setRoutes();
     }
     setRoutes() {
-        this.router.post('/test', AuthMiddleWare.checkJwt, UserService.updateUserAccount, (req: Request, res: Response) => {
-            res.status(200).json('Update user success');
-        })
+        // this.router.post('/test', AuthMiddleWare.checkJwt, UserService.updateUserAccount, (req: Request, res: Response) => {
+        //     res.status(200).json('Update user success');
+        // })
         
     }
 }
