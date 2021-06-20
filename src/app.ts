@@ -7,6 +7,8 @@ import { route } from './routes/router';
 import ErrorMiddleWare from './middlewares/error.middleware';
 import { Request, Response, NextFunction } from 'express';
 import ApiExcption from './exceptions/ApiException';
+import Validator from 'swagger-model-validator';
+
 
 class APP {
     app = express();
