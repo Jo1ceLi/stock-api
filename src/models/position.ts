@@ -4,10 +4,6 @@ import { BaseEntity, Column, Entity, ObjectIdColumn, ObjectType } from "typeorm"
 @Entity()
 export class Position extends BaseEntity{
 
-    // constructor(averagePrice: number) {
-    //     super();
-    //     this.averagePrice = averagePrice;
-    // }
     @ObjectIdColumn()
     id: string;
 

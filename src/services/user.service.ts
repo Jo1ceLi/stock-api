@@ -9,16 +9,19 @@ import { Instrument } from '../models/instrument';
 import { ObjectID } from 'mongodb';
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager'
 import { getMongoRepository, getRepository } from 'typeorm';
+import Validator from 'swagger-model-validator';
+import swaggerDoc from '../../openapi.json';
+
 
 class UserService {
     async register(req: Request, next: NextFunction) {
         const { email, password, userName } = req.body;
         if(!(email && password && userName)){
-            return next(new ApiExcption(400, 'Email, password and userName are required.'));
+            return next(ApiExcption.badRequest('Email, password and userName are required.'));
         }
         const user = await User.findOne({where: { email }})
         if(user) {
-            return next(new ApiExcption(400, 'User already exist.'));
+            return next(ApiExcption.badRequest('User already exist.'));
         }
         const hashPassword = await bcrypt.hash(password, 10);
         return await User.create({
@@ -36,8 +39,10 @@ class UserService {
     async login(req: Request, next: NextFunction) {
         const expiredMins = 60;
         const { email, password } = req.body;
-        if(!(email && password)){
-            return next(new ApiExcption(401, 'Email and password are required.'));
+        var validator = new Validator();
+        var requestError = validator.validate(req.body, swaggerDoc.components.requestBodies.LoginInput.content['application/json'].schema);
+        if(requestError){
+            return next(ApiExcption.badRequest(requestError.errors));
         }
         const user = await User.findOne({ where: { email }});
         if(!user) next(new ApiExcption(401, `User hasn't registered.`));

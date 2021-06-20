@@ -208,6 +208,13 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
   integrity sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
 
+"@types/redis@^2.8.29":
+  version "2.8.29"
+  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.29.tgz#f272dba985156e599e2523afb4f5f7e7586b56b5"
+  integrity sha512-/pjQ9lwnL/t1bEfRHQFEJB3kHCR65tpB19NEWmbqcgGgqrfeGo/9b4tUtHbClxQoy3+g6Esx2QRtV7fk7kBPYg==
+  dependencies:
+    "@types/node" "*"
+
 "@types/serve-static@*", "@types/serve-static@^1.13.9":
   version "1.13.9"
   resolved "https://registry.yarnpkg.com/@types/serve-static/-/serve-static-1.13.9.tgz#aacf28a85a05ee29a11fb7c3ead935ac56f33e4e"
@@ -1369,6 +1376,11 @@ lodash.isboolean@^3.0.3:
   resolved "https://registry.yarnpkg.com/lodash.isboolean/-/lodash.isboolean-3.0.3.tgz#6c2e171db2a257cd96802fd43b01b20d5f5870f6"
   integrity sha1-bC4XHbKiV82WgC/UOwGyDV9YcPY=
 
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+  integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
+
 lodash.isinteger@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/lodash.isinteger/-/lodash.isinteger-4.0.4.tgz#619c0af3d03f8b04c31f5882840b77b11cd68343"
@@ -2111,6 +2123,13 @@ supports-color@^7.1.0:
   integrity sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==
   dependencies:
     has-flag "^4.0.0"
+
+swagger-model-validator@^3.0.20:
+  version "3.0.20"
+  resolved "https://registry.yarnpkg.com/swagger-model-validator/-/swagger-model-validator-3.0.20.tgz#9f50c14dd87a7c9899d2fdfe74c7d2b62355e1fe"
+  integrity sha512-lFwgcigjAS+ZDRUetx9JRbI00f0BsFJiPnAjFcEnLz/u1+Wk7rSNNCp31LJFDYqn1yrGoGqIS7hXBsafWZKpEA==
+  dependencies:
+    lodash.isequal "^4.5.0"
 
 swagger-routes-express@^3.3.0:
   version "3.3.0"
