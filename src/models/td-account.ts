@@ -1,15 +1,17 @@
-import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn, ObjectType } from "typeorm";
-import { Position } from "./position";
+import {
+    BaseEntity, Column, Entity, ObjectID, ObjectIdColumn,
+} from 'typeorm';
+import Position from './position';
 
 @Entity()
-export class TDAccount extends BaseEntity{
+class TDAccount extends BaseEntity {
     @ObjectIdColumn()
     id: ObjectID;
 
     @Column()
     accountId: string;
 
-    @Column(type => Position)
+    @Column(() => Position)
     positions: Position[];
-
 }
+export default TDAccount;

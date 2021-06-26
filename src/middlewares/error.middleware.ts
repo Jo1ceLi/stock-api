@@ -1,18 +1,17 @@
-import { Response } from 'express';
-import { Request, NextFunction } from 'express';
-import ApiExcption from "../exceptions/ApiException";
+import { Response, Request } from 'express';
 
+import ApiExcption from '../exceptions/ApiException';
 
-function ErrorMiddleWare(error: ApiExcption, req: Request, res: Response, next: NextFunction){
-    if(error) {
+function ErrorMiddleWare(error: ApiExcption, req: Request, res: Response) {
+    if (error) {
         const status = error.status || 500;
         const message = error.message || 'Error';
         res.status(status).send({
             status,
-            message
+            message,
         });
         return;
     }
-    res.status(500).send(`Internal error happened....`);
+    res.status(500).send('Internal error happened....');
 }
 export default ErrorMiddleWare;

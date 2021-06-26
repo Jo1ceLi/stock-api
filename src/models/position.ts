@@ -1,13 +1,14 @@
-import { Instrument } from './instrument';
-import { BaseEntity, Column, Entity, ObjectIdColumn, ObjectType } from "typeorm";
+import {
+    BaseEntity, Column, Entity, ObjectIdColumn,
+} from 'typeorm';
+import Instrument from './instrument';
 
 @Entity()
-export class Position extends BaseEntity{
-
+class Position extends BaseEntity {
     @ObjectIdColumn()
     id: string;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     averagePrice: number;
 
     @Column()
@@ -27,10 +28,10 @@ export class Position extends BaseEntity{
 
     @Column()
     shortQuantity: number;
-    
-    @Column(_ => Instrument)
+
+    @Column(() => Instrument)
     instrument: Instrument;
-    
+
     @Column()
     marketValue: number;
 
@@ -44,3 +45,4 @@ export class Position extends BaseEntity{
     previousSessionLongQuantity: number;
 }
 
+export default Position;

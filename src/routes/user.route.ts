@@ -1,15 +1,19 @@
-import { UserController } from './../controllers/user.controller';
-import express, { Application, Router } from "express";
+import express from 'express';
+import { UserController } from '../controllers/index.controller';
 import AuthMiddleWare from '../middlewares/auth.middleware';
-import { BaseRoute } from "./route";
+import { BaseRoute } from './route';
 
 class UserRoute implements BaseRoute {
     path = '/';
+
     router = express.Router();
-    controller = new UserController();
+
+    controller = UserController;
+
     constructor() {
         this.setRoutes();
     }
+
     setRoutes() {
         this.router.post('/register', this.controller.register);
         this.router.post('/login', this.controller.login);

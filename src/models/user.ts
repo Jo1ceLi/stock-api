@@ -1,19 +1,22 @@
-import { BaseEntity, Column, Entity, ObjectIdColumn } from "typeorm";
+import {
+    BaseEntity, Column, Entity, ObjectIdColumn,
+} from 'typeorm';
 
 @Entity()
-export class User extends BaseEntity{
+class User extends BaseEntity {
     @ObjectIdColumn()
     id: string;
 
-    @Column({nullable: false, unique: true})
+    @Column({ nullable: false, unique: true })
     email: string;
-    
-    @Column({nullable: false})
+
+    @Column({ nullable: false })
     password: string;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     userName: string;
 
     @Column()
     tdAccountId: string[];
-} 
+}
+export default User;

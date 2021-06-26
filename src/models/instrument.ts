@@ -1,6 +1,6 @@
-import { Column } from "typeorm";
+import { Column } from 'typeorm';
 
-export class Instrument {
+class Instrument {
     @Column()
     assetType: string;
 
@@ -10,12 +10,13 @@ export class Instrument {
     @Column()
     symbol: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     descripttion?: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     putCall?: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     underlyingSymbol?: string;
 }
+export default Instrument;
