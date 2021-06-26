@@ -1,3 +1,4 @@
+import { getLogger } from 'log4js';
 import swaggerUi from 'swagger-ui-express';
 import express from 'express';
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
@@ -10,6 +11,8 @@ class APP {
     app = express();
 
     client = new SecretManagerServiceClient();
+
+    logger = getLogger();
 
     constructor() {
         this.config();
@@ -47,13 +50,14 @@ class APP {
                 synchronize: true,
                 logging: true,
                 entities: [`${__dirname}/models/*.*`],
-            }).then(() => console.log('Connected to DB'),
-                (err) => console.log(err));
+            }).then(() => this.logger.info('Connected to DB'),
+                (err) => this.logger.error(err));
         }
     }
 }
 export async function accessSecretVersion(name: string, client: SecretManagerServiceClient)
     : Promise<string> {
+    const logger = getLogger();
     const [version] = await client.accessSecretVersion({ name });
 
     if (version.payload?.data) {
@@ -61,7 +65,7 @@ export async function accessSecretVersion(name: string, client: SecretManagerSer
         return payload;
     }
 
-    console.log('Fetching secret error');
+    logger.error('Fetching secret error');
     throw Error('Fetching secret error');
 }
 
